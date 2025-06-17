@@ -32,11 +32,11 @@
             this.panel14 = new System.Windows.Forms.Panel();
             this.dice2 = new System.Windows.Forms.PictureBox();
             this.dice1 = new System.Windows.Forms.PictureBox();
-            this.panel11 = new System.Windows.Forms.Panel();
+            this.panelTileInfo = new System.Windows.Forms.Panel();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.panel12 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
+            this.tileInfo = new System.Windows.Forms.Label();
+            this.tileColor = new System.Windows.Forms.Panel();
+            this.tileName = new System.Windows.Forms.Label();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -62,9 +62,9 @@
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).BeginInit();
-            this.panel11.SuspendLayout();
+            this.panelTileInfo.SuspendLayout();
             this.panel13.SuspendLayout();
-            this.panel12.SuspendLayout();
+            this.tileColor.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -80,7 +80,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.boardPanel.Controls.Add(this.panel14);
-            this.boardPanel.Controls.Add(this.panel11);
+            this.boardPanel.Controls.Add(this.panelTileInfo);
             this.boardPanel.Controls.Add(this.panel15);
             this.boardPanel.Controls.Add(this.panel5);
             this.boardPanel.Controls.Add(this.rightPanel);
@@ -119,57 +119,59 @@
             this.dice1.TabStop = false;
             this.dice1.Click += new System.EventHandler(this.dice1_Click);
             // 
-            // panel11
+            // panelTileInfo
             // 
-            this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel11.Controls.Add(this.panel13);
-            this.panel11.Controls.Add(this.panel12);
-            this.panel11.Location = new System.Drawing.Point(587, 284);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(307, 360);
-            this.panel11.TabIndex = 8;
+            this.panelTileInfo.BackColor = System.Drawing.Color.Transparent;
+            this.panelTileInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTileInfo.Controls.Add(this.panel13);
+            this.panelTileInfo.Controls.Add(this.tileColor);
+            this.panelTileInfo.Location = new System.Drawing.Point(587, 284);
+            this.panelTileInfo.Name = "panelTileInfo";
+            this.panelTileInfo.Size = new System.Drawing.Size(307, 360);
+            this.panelTileInfo.TabIndex = 8;
+            this.panelTileInfo.Visible = false;
             // 
             // panel13
             // 
-            this.panel13.Controls.Add(this.label8);
+            this.panel13.Controls.Add(this.tileInfo);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(0, 40);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(305, 318);
             this.panel13.TabIndex = 2;
             // 
-            // label8
+            // tileInfo
             // 
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(305, 318);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Giá mua đất: 1000$\nGiá mua một căn nhà: 100$\nTiền trả khi người khác vào ô trống:" +
+            this.tileInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tileInfo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tileInfo.Location = new System.Drawing.Point(0, 0);
+            this.tileInfo.Name = "tileInfo";
+            this.tileInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tileInfo.Size = new System.Drawing.Size(305, 318);
+            this.tileInfo.TabIndex = 0;
+            this.tileInfo.Text = "Giá mua đất: 1000$\nGiá mua một căn nhà: 100$\nTiền trả khi người khác vào ô trống:" +
     " 1000$";
             // 
-            // panel12
+            // tileColor
             // 
-            this.panel12.Controls.Add(this.label7);
-            this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel12.Location = new System.Drawing.Point(0, 0);
-            this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(305, 40);
-            this.panel12.TabIndex = 1;
+            this.tileColor.Controls.Add(this.tileName);
+            this.tileColor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tileColor.Location = new System.Drawing.Point(0, 0);
+            this.tileColor.Name = "tileColor";
+            this.tileColor.Size = new System.Drawing.Size(305, 40);
+            this.tileColor.TabIndex = 1;
             // 
-            // label7
+            // tileName
             // 
-            this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(0, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(305, 40);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "THÔNG TIN Ô \'HÀ NỘI\'";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tileName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tileName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tileName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tileName.Location = new System.Drawing.Point(0, 0);
+            this.tileName.Name = "tileName";
+            this.tileName.Size = new System.Drawing.Size(305, 40);
+            this.tileName.TabIndex = 7;
+            this.tileName.Text = "THÔNG TIN Ô \'HÀ NỘI\'";
+            this.tileName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel15
             // 
@@ -390,9 +392,9 @@
             this.panel14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).EndInit();
-            this.panel11.ResumeLayout(false);
+            this.panelTileInfo.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
-            this.panel12.ResumeLayout(false);
+            this.tileColor.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
@@ -427,13 +429,13 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel panelTileInfo;
+        private System.Windows.Forms.Panel tileColor;
         private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label tileInfo;
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.PictureBox dice1;
         private System.Windows.Forms.PictureBox dice2;
+        private System.Windows.Forms.Label tileName;
     }
 }

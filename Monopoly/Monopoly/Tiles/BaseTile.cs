@@ -33,6 +33,12 @@ namespace Monopoly.Tiles
             DrawPlayerMarker(g, bounds);
         }
 
+        public virtual string GetInfo()
+        {
+            return $"Thông tin ô {TileName}";
+            // Logic for when the tile is clicked, if needed
+        }
+
         protected virtual void DrawBorder(Graphics g, Rectangle bounds)
         {
             // Vẽ viền tile

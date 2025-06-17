@@ -68,6 +68,12 @@ namespace Monopoly.Tiles
             DrawHouses(g, bounds);
         }
 
+        public override string GetInfo()
+        {
+            // Hiển thị thông tin chi tiết về ô đất
+            return base.GetInfo() + $"\nGiá: ${Price}\nCấp độ giá: {PriceLevel}\nSố nhà: {HouseCount}";
+        }
+
         protected virtual void DrawHouses(Graphics g, Rectangle bounds)
         {
             var houseFrameRect = new Rectangle(5, bounds.Height - 18, bounds.Width - 10, 14);

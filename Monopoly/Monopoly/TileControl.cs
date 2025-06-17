@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Monopoly.Tiles;
 
@@ -7,6 +8,7 @@ namespace Monopoly
     public class TileControl : UserControl
     {
         private ITileComponent tile;
+        public event EventHandler<TileClickedEventArgs> TileClicked;
 
         public ITileComponent Tile
         {
@@ -47,6 +49,27 @@ namespace Monopoly
 
             Rectangle bounds = new Rectangle(0, 0, this.Width, this.Height);
             tile.OnRender(e.Graphics, bounds);
+        }
+
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+
+            if (Tile != null)
+            {
+                TileClicked?.Invoke(this, new TileClickedEventArgs(Tile));
+            }
+        }
+    }
+
+    public class TileClickedEventArgs : EventArgs
+    {
+        public ITileComponent Tile { get; }
+
+        public TileClickedEventArgs(ITileComponent tile)
+        {
+            Tile = tile;
         }
     }
 }

@@ -44,6 +44,24 @@ namespace Monopoly
             CreateRightTiles();
         }
 
+        private void OnTileClicked(object sender, TileClickedEventArgs e)
+        {
+            UpdateTileInfoUI(e.Tile);
+        }
+
+        private void UpdateTileInfoUI(ITileComponent tile)
+        {
+            if (tile == null) return;
+            if (!panelTileInfo.Visible)
+            {
+                panelTileInfo.Visible = true;
+            }
+
+            tileColor.BackColor = tile.TileColor; // Assuming ITileComponent has a TileColor property
+            tileName.Text = "Ô: " + tile.TileName; // Assuming ITileComponent has a TileName property
+            tileInfo.Text = tile.GetInfo();
+        }
+
         private void CreateBottomTiles()
         {
             // Bottom row (tiles 0-10) - from right to left
@@ -65,7 +83,7 @@ namespace Monopoly
                 new TileControl(new SpecialTile("THUẾ THU NHẬP", Color.LightGray, "💰")),
                 
                 // Tile 5 - Railroad
-                new TileControl(new PropertyTile("GA TÀU 1", Color.Black, 2000, 250)),
+                new TileControl(new PropertyTile("GA TÀU 1", Color.SlateBlue, 2000, 250)),
                 
                 // Tile 6 - Light Blue properties
                 new TileControl(new PropertyTile("NHA TRANG", Color.LightSkyBlue, 1000, 60)),
@@ -85,6 +103,7 @@ namespace Monopoly
 
             for (int i = 0; i < bottomTiles.Count; i++)
             {
+                bottomTiles[i].TileClicked += OnTileClicked; // Subscribe to tile click event
                 tiles[i] = bottomTiles[i];
                 tiles[i].Dock = DockStyle.Right;
                 bottomPanel.Controls.Add(tiles[i]);
@@ -109,7 +128,7 @@ namespace Monopoly
                 new TileControl(new PropertyTile("VŨNG TÀU", Color.HotPink, 1600, 120)),
                 
                 // Tile 15 - Railroad
-                new TileControl(new PropertyTile("GA TÀU 2", Color.Black, 2000, 250)),
+                new TileControl(new PropertyTile("GA TÀU 2", Color.SlateBlue, 2000, 250)),
                 
                 // Tile 16 - Orange properties
                 new TileControl(new PropertyTile("PHAN THIẾT", Color.Orange, 1800, 140)),
@@ -126,6 +145,7 @@ namespace Monopoly
 
             for (int i = 0; i < leftTiles.Count; i++)
             {
+                leftTiles[i].TileClicked += OnTileClicked; // Subscribe to tile click event
                 tiles[11 + i] = leftTiles[i];
                 tiles[11 + i].Dock = DockStyle.Bottom;
                 leftPanel.Controls.Add(tiles[11 + i]);
@@ -153,7 +173,7 @@ namespace Monopoly
                 new TileControl(new PropertyTile("HỘI AN", Color.Red, 2400, 200)),
                 
                 // Tile 25 - Railroad
-                new TileControl(new PropertyTile("GA TÀU 3", Color.Black, 2000, 250)),
+                new TileControl(new PropertyTile("GA TÀU 3", Color.SlateBlue, 2000, 250)),
                 
                 // Tile 26 - Yellow properties
                 new TileControl(new PropertyTile("BÌNH DƯƠNG", Color.Yellow, 2600, 220)),
@@ -173,6 +193,7 @@ namespace Monopoly
 
             for (int i = 0; i < topTiles.Count; i++)
             {
+                topTiles[i].TileClicked += OnTileClicked; // Subscribe to tile click event
                 tiles[20 + i] = topTiles[i];
                 tiles[20 + i].Dock = DockStyle.Left;
                 topPanel.Controls.Add(tiles[20 + i]);
@@ -197,35 +218,28 @@ namespace Monopoly
                 new TileControl(new PropertyTile("BẮC NINH", Color.Green, 3200, 280)),
                 
                 // Tile 35 - Railroad
-                new TileControl(new PropertyTile("GA TÀU 4", Color.Black, 2000, 250)),
+                new TileControl(new PropertyTile("GA TÀU 4", Color.SlateBlue, 2000, 250)),
                 
                 // Tile 36 - Chance
                 new TileControl(new SpecialTile("CƠ HỘI", Color.Orange, "❗")),
                 
                 // Tile 37 - Dark Blue property
-                new TileControl(new PropertyTile("THANH HÓA", Color.DarkBlue, 3500, 350)),
+                new TileControl(new PropertyTile("THANH HÓA", Color.LightGreen, 3500, 350)),
                 
                 // Tile 38 - Luxury Tax
                 new TileControl(new SpecialTile("THUẾ CAO CẤP", Color.LightGray, "💎")),
                 
                 // Tile 39 - Dark Blue property
-                new TileControl(new PropertyTile("HƯNG YÊN", Color.DarkBlue, 4000, 500))
+                new TileControl(new PropertyTile("HƯNG YÊN", Color.LightGreen, 4000, 500))
             };
 
             for (int i = 0; i < rightTiles.Count; i++)
             {
+                rightTiles[i].TileClicked += OnTileClicked;
                 tiles[31 + i] = rightTiles[i];
                 tiles[31 + i].Dock = DockStyle.Top;
                 rightPanel.Controls.Add(tiles[31 + i]);
             }
-        }
-
-        // Helper method to get tile by index
-        public TileControl GetTile(int index)
-        {
-            if (index >= 0 && index < 40)
-                return tiles[index];
-            return null;
         }
 
         // Helper method to get all property tiles
