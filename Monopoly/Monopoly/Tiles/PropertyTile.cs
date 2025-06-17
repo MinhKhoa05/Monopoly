@@ -1,15 +1,20 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Monopoly.Tiles
 {
     public class PropertyTile : BaseTile
     {
         public int Price { get; set; }
+        public Player Owner { get; set; } // Optional: to track the owner of the property
+        public int PriceLevel { get; set; }
+        public int HouseCount { get; set; } // Number of houses on the property
 
-        public PropertyTile(string tileName, Color tileColor, int price)
+        public PropertyTile(string tileName, Color tileColor, int price, int priceLevel)
             : base(tileName, tileColor)
         {
             this.Price = price;
+            this.PriceLevel = priceLevel;
         }
 
         public override void OnEnter(Player player)
@@ -18,6 +23,7 @@ namespace Monopoly.Tiles
             // For example, check if the player can buy it or pay rent
         }
 
+        #region Rendering Overrides
         protected override void DrawTileColor(Graphics g, Rectangle bounds)
         {
             // Vẽ thanh màu tile (trên)
@@ -59,13 +65,17 @@ namespace Monopoly.Tiles
                 g.DrawString($"${Price}", font, Brushes.DarkBlue, priceRect, format);
             }
 
-            // Vẽ khung chứa nhà (hình chữ nhật bo góc)
+            DrawHouses(g, bounds);
+        }
+
+        protected virtual void DrawHouses(Graphics g, Rectangle bounds)
+        {
             var houseFrameRect = new Rectangle(5, bounds.Height - 18, bounds.Width - 10, 14);
 
-            // Vẽ nền bo góc
+            // Vẽ nền bo góc với radius nhỏ hơn
             using (var path = new System.Drawing.Drawing2D.GraphicsPath())
             {
-                var radius = 4;
+                var radius = 4; // Giảm từ 6 xuống 4
                 path.StartFigure();
                 path.AddArc(houseFrameRect.X, houseFrameRect.Y, radius, radius, 180, 90);
                 path.AddArc(houseFrameRect.Right - radius, houseFrameRect.Y, radius, radius, 270, 90);
@@ -76,6 +86,26 @@ namespace Monopoly.Tiles
                 g.FillPath(Brushes.Silver, path);
                 g.DrawPath(Pens.Gray, path);
             }
+
+            if (HouseCount <= 0) return; // Không vẽ nhà nếu không có nhà nào
+
+            // Chia đều khung thành 4 phần để vẽ nhà tròn - kích thước nhỏ hơn
+            var frameInnerWidth = houseFrameRect.Width - 6;
+            var houseWidth = frameInnerWidth / 4;
+            var houseSize = Math.Min(houseWidth - 2, 8); // Giảm kích thước nhà
+
+            // Vẽ nhà tròn từ trái qua phải
+            for (int i = 0; i < HouseCount && i < 4; i++)
+            {
+                var houseX = houseFrameRect.X + 3 + (i * houseWidth) + (houseWidth - houseSize) / 2;
+                var houseY = bounds.Height - 12 - houseSize / 2;
+                var houseRect = new Rectangle(houseX, houseY, houseSize, houseSize);
+
+                g.FillEllipse(Brushes.LimeGreen, houseRect);
+                g.DrawEllipse(Pens.DarkGreen, houseRect);
+            }
         }
+
+        #endregion
     }
 }

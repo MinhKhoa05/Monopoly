@@ -18,7 +18,8 @@ namespace Monopoly
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MainForm());
             //Application.Run(new BoardGame());
-            Application.Run(new Form2());
+            //Application.Run(new Form1());
+            Application.Run(new Main());
 
             string text = "❓, 🏠, 🚗, 💰, 🎲, 🃏, 🏦, 🏛️, 🏷️, ⛳, 🚓, 🛑";
         }

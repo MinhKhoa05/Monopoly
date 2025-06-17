@@ -24,14 +24,6 @@ namespace Monopoly.Tiles
 
         protected override void DrawTileContent(Graphics g, Rectangle bounds)
         {
-            // Vẽ icon giữa tile
-            using (var font = new Font("Segoe UI Emoji", 16))
-            {
-                var iconRect = new Rectangle(0, 5, bounds.Width, 25);
-                var format = new StringFormat() { Alignment = StringAlignment.Center };
-                g.DrawString(Icon, font, Brushes.Black, iconRect, format);
-            }
-
             // Vẽ tên tile
             using (var font = new Font("Segoe UI", 9, FontStyle.Bold))
             {
@@ -42,6 +34,14 @@ namespace Monopoly.Tiles
                     LineAlignment = StringAlignment.Center
                 };
                 g.DrawString(TileName, font, Brushes.Black, textRect, format);
+            }
+
+            // Vẽ icon giữa tile
+            using (var font = new Font("Segoe UI Emoji", 16))
+            {
+                var iconRect = new Rectangle(0, 5, bounds.Width, 25);
+                var format = new StringFormat() { Alignment = StringAlignment.Center };
+                g.DrawString(Icon, font, Brushes.Black, iconRect, format);
             }
         }
     }

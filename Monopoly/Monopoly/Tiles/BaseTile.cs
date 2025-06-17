@@ -36,7 +36,7 @@ namespace Monopoly.Tiles
         protected virtual void DrawBorder(Graphics g, Rectangle bounds)
         {
             // Vẽ viền tile
-            using (var pen = new Pen(Color.Black, 2))
+            using (var pen = new Pen(Color.Black, 1))
             {
                 g.DrawRectangle(pen, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
             }
