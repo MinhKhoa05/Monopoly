@@ -4,11 +4,11 @@ namespace Monopoly.Tiles
 {
     internal class SpecialTile : BaseTile
     { 
-        public string Icon { get; set; } = "⛳"; // Hoặc "🚓", "🛑", "🏛️"
+        public string Symbol { get; set; } = "⛳"; // Hoặc "🚓", "🛑", "🏛️"
 
-        public SpecialTile(string tileName, Color tileColor, string icon) : base(tileName, tileColor)
+        public SpecialTile(string tileName, Color tileColor, string symbol) : base(tileName, tileColor)
         {
-            this.Icon = icon;
+            this.Symbol = symbol;
         }
 
         public override void OnEnter(Player player) { }
@@ -41,7 +41,7 @@ namespace Monopoly.Tiles
             {
                 var iconRect = new Rectangle(0, 5, bounds.Width, 25);
                 var format = new StringFormat() { Alignment = StringAlignment.Center };
-                g.DrawString(Icon, font, Brushes.Black, iconRect, format);
+                g.DrawString(Symbol, font, Brushes.Black, iconRect, format);
             }
         }
     }

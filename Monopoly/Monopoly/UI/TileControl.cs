@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Monopoly.Tiles;
 
-namespace Monopoly
+namespace Monopoly.UI
 {
     public class TileControl : UserControl
     {
@@ -31,6 +31,25 @@ namespace Monopoly
         public TileControl(ITileComponent tile) : this()
         {
             this.Tile = tile;
+        }
+
+        public void AddPlayerOnTile(Player player)
+        {
+            if (!tile.PlayersOnTile.Contains(player))
+            {
+                tile.PlayersOnTile.Add(player);
+            }
+
+            Invalidate(); // Vẽ lại để cập nhật người chơi trên tile
+        }
+
+        public void RemovePlayerOnTile(Player player)
+        {
+            if (tile.PlayersOnTile.Contains(player))
+            {
+                tile.PlayersOnTile.Remove(player);
+                Invalidate(); // Vẽ lại để cập nhật người chơi trên tile
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)

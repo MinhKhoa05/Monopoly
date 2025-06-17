@@ -10,6 +10,6 @@ namespace Monopoly.Tiles
         void OnEnter(Player player);
         void OnRender(Graphics g, Rectangle bounds);
         string GetInfo();
-        List<string> PlayersOnTile { get; set; }
+        List<Player> PlayersOnTile { get; set; } // Optional: to track players on the tile
     }
 }

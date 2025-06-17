@@ -8,15 +8,8 @@ namespace Monopoly.Tiles
         public string TileName { get; set; }
         public Color TileColor { get; set; }
 
-        private List<string> playersOnTile = new List<string>();
-        private readonly Color[] playerColors = { Color.Red, Color.Blue, Color.Green, Color.Orange };
-
-        public List<string> PlayersOnTile
-        {
-            get { return playersOnTile; }
-            set { playersOnTile = value; }
-        }
-
+        public List<Player> PlayersOnTile { get; set; } = new List<Player>(); // Optional: to track players on the tile
+        
         public BaseTile(string tileName, Color tileColor)
         {
             this.TileName = tileName;
@@ -67,12 +60,12 @@ namespace Monopoly.Tiles
                 new Point(textAreaRight - 11, textAreaBottom - 7)   // Góc dưới phải
             };
 
-            for (int i = 0; i < playersOnTile.Count && i < 4; i++)
+            for (int i = 0; i < PlayersOnTile.Count; i++)
             {
                 var playerPos = playerPositions[i];
                 var playerRect = new Rectangle(playerPos.X, playerPos.Y, 10, 10);
+                var playerColor = PlayersOnTile[i].Color;
 
-                var playerColor = playerColors[i % playersOnTile.Count];
                 using (var brush = new SolidBrush(playerColor))
                 {
                     g.FillRectangle(brush, playerRect);

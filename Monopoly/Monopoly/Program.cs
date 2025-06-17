@@ -19,7 +19,8 @@ namespace Monopoly
             //Application.Run(new MainForm());
             //Application.Run(new BoardGame());
             //Application.Run(new Form1());
-            Application.Run(new Main());
+            Application.Run(new Board());
+            //Application.Run();
             //a.Ve();
 
             string text = "❓, 🏠, 🚗, 💰, 🎲, 🃏, 🏦, 🏛️, 🏷️, ⛳, 🚓, 🛑";

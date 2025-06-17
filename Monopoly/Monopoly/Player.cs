@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using Monopoly.Tiles;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monopoly
 {
-    #region Player Class
-
     public class Player
     {
         public string Name { get; set; }
@@ -20,7 +14,7 @@ namespace Monopoly
         public bool InJail { get; set; }
         public int JailTurns { get; set; }
 
-        public Player(string name, Color color, int startingMoney)
+        public Player(string name, Color color, int startingMoney = 20000)
         {
             Name = name;
             Color = color;
@@ -31,6 +25,4 @@ namespace Monopoly
             JailTurns = 0;
         }
     }
-
-    #endregion
 }

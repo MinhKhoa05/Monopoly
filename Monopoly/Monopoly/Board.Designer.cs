@@ -1,6 +1,6 @@
 ﻿namespace Monopoly
 {
-    partial class Main
+    partial class Board
     {
         /// <summary>
         /// Required designer variable.
@@ -39,25 +39,14 @@
             this.tileName = new System.Windows.Forms.Label();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.panelPlayer = new System.Windows.Forms.Panel();
             this.boardPanel.SuspendLayout();
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
@@ -66,11 +55,7 @@
             this.panel13.SuspendLayout();
             this.tileColor.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel8.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +67,7 @@
             this.boardPanel.Controls.Add(this.panel14);
             this.boardPanel.Controls.Add(this.panelTileInfo);
             this.boardPanel.Controls.Add(this.panel15);
-            this.boardPanel.Controls.Add(this.panel5);
+            this.boardPanel.Controls.Add(this.panel2);
             this.boardPanel.Controls.Add(this.rightPanel);
             this.boardPanel.Controls.Add(this.leftPanel);
             this.boardPanel.Controls.Add(this.bottomPanel);
@@ -142,6 +127,7 @@
             // 
             // tileInfo
             // 
+            this.tileInfo.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tileInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tileInfo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tileInfo.Location = new System.Drawing.Point(0, 0);
@@ -195,131 +181,16 @@
             this.label6.Text = "CỜ TỶ PHÚ VIỆT NAM";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.LightYellow;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.panel7);
-            this.panel5.Controls.Add(this.panel3);
-            this.panel5.Controls.Add(this.panel1);
-            this.panel5.Controls.Add(this.panel8);
-            this.panel5.Controls.Add(this.panel6);
-            this.panel5.Location = new System.Drawing.Point(587, 76);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(307, 202);
-            this.panel5.TabIndex = 6;
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.label5);
-            this.panel7.Controls.Add(this.panel10);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 160);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(305, 40);
-            this.panel7.TabIndex = 4;
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(35, 10);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(267, 20);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Hồ Nguyễn Minh Khoa - 1000000$";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel10
-            // 
-            this.panel10.BackColor = System.Drawing.Color.Aqua;
-            this.panel10.Location = new System.Drawing.Point(10, 10);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(20, 20);
-            this.panel10.TabIndex = 6;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.label4);
-            this.panel3.Controls.Add(this.panel4);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 120);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(305, 40);
-            this.panel3.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(35, 10);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(267, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Hồ Nguyễn Minh Khoa - 1000000$";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.Lime;
-            this.panel4.Location = new System.Drawing.Point(10, 10);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(20, 20);
-            this.panel4.TabIndex = 6;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 80);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(305, 40);
-            this.panel1.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(35, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(267, 20);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Hồ Nguyễn Minh Khoa - 1000000$";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Yellow;
-            this.panel2.Location = new System.Drawing.Point(10, 10);
+            this.panel2.BackColor = System.Drawing.Color.LightYellow;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.panelPlayer);
+            this.panel2.Controls.Add(this.panel6);
+            this.panel2.Location = new System.Drawing.Point(587, 76);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(20, 20);
+            this.panel2.Size = new System.Drawing.Size(307, 202);
             this.panel2.TabIndex = 6;
-            // 
-            // panel8
-            // 
-            this.panel8.Controls.Add(this.label2);
-            this.panel8.Controls.Add(this.panel9);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel8.Location = new System.Drawing.Point(0, 40);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(305, 40);
-            this.panel8.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(35, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(267, 20);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Hồ Nguyễn Minh Khoa - 1000000$";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel9
-            // 
-            this.panel9.BackColor = System.Drawing.Color.Red;
-            this.panel9.Location = new System.Drawing.Point(10, 10);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(20, 20);
-            this.panel9.TabIndex = 6;
             // 
             // panel6
             // 
@@ -373,6 +244,14 @@
             this.topPanel.Size = new System.Drawing.Size(990, 65);
             this.topPanel.TabIndex = 0;
             // 
+            // panelPlayer
+            // 
+            this.panelPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPlayer.Location = new System.Drawing.Point(0, 40);
+            this.panelPlayer.Name = "panelPlayer";
+            this.panelPlayer.Size = new System.Drawing.Size(305, 160);
+            this.panelPlayer.TabIndex = 1;
+            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -396,11 +275,7 @@
             this.panel13.ResumeLayout(false);
             this.tileColor.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel7.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -412,21 +287,9 @@
         private System.Windows.Forms.Panel bottomPanel;
         private System.Windows.Forms.Panel leftPanel;
         private System.Windows.Forms.Panel rightPanel;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panelTileInfo;
@@ -437,5 +300,6 @@
         private System.Windows.Forms.PictureBox dice1;
         private System.Windows.Forms.PictureBox dice2;
         private System.Windows.Forms.Label tileName;
+        private System.Windows.Forms.Panel panelPlayer;
     }
 }
