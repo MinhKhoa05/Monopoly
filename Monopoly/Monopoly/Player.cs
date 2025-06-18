@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using Monopoly.Tiles;
+﻿using System.Drawing;
 
 namespace Monopoly
 {
@@ -10,19 +8,15 @@ namespace Monopoly
         public Color Color { get; set; }
         public int Money { get; set; }
         public int Position { get; set; }
-        public List<PropertyTile> Properties { get; set; }
-        public bool InJail { get; set; }
-        public int JailTurns { get; set; }
 
-        public Player(string name, Color color, int startingMoney = 20000)
+        public int PlayerIndex { get; set; } // <= đây là chỉ số cố định, từ 0 đến 3
+
+        public Player(string name, Color color, int money = 20000, int playerIndex = 0)
         {
             Name = name;
             Color = color;
-            Money = startingMoney;
-            Position = 0;
-            Properties = new List<PropertyTile>();
-            InJail = false;
-            JailTurns = 0;
+            Money = money;
+            PlayerIndex = playerIndex;
         }
     }
 }

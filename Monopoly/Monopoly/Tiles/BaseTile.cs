@@ -3,20 +3,31 @@ using System.Drawing;
 
 namespace Monopoly.Tiles
 {
-    public abstract class BaseTile : ITileComponent
+    public abstract class BaseTile : ITile
     {
         public string TileName { get; set; }
         public Color TileColor { get; set; }
+        public List<Player> PlayersOnTile { get; set; } = new List<Player>(); // Danh sách người chơi trên ô này
 
-        public List<Player> PlayersOnTile { get; set; } = new List<Player>(); // Optional: to track players on the tile
-        
         public BaseTile(string tileName, Color tileColor)
         {
             this.TileName = tileName;
             this.TileColor = tileColor;
         }
 
-        public abstract void OnEnter(Player player);
+        public void OnEnter(Player player)
+        {
+            if (!PlayersOnTile.Contains(player))
+            {
+                PlayersOnTile.Add(player);
+            }
+        }
+
+        public void OnLeave(Player player)
+        {
+            // Xóa người chơi khỏi danh sách nếu họ rời khỏi ô
+            PlayersOnTile.Remove(player);
+        }
 
         public void OnRender(Graphics g, Rectangle bounds)
         {
@@ -62,7 +73,7 @@ namespace Monopoly.Tiles
 
             for (int i = 0; i < PlayersOnTile.Count; i++)
             {
-                var playerPos = playerPositions[i];
+                var playerPos = playerPositions[PlayersOnTile[i].PlayerIndex];
                 var playerRect = new Rectangle(playerPos.X, playerPos.Y, 10, 10);
                 var playerColor = PlayersOnTile[i].Color;
 

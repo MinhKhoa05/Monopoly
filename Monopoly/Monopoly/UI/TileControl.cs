@@ -7,10 +7,10 @@ namespace Monopoly.UI
 {
     public class TileControl : UserControl
     {
-        private ITileComponent tile;
+        private ITile tile;
         public event EventHandler<TileClickedEventArgs> TileClicked;
 
-        public ITileComponent Tile
+        public ITile Tile
         {
             get => tile;
             set
@@ -28,28 +28,9 @@ namespace Monopoly.UI
             this.BackColor = Color.White;
         }
 
-        public TileControl(ITileComponent tile) : this()
+        public TileControl(ITile tile) : this()
         {
             this.Tile = tile;
-        }
-
-        public void AddPlayerOnTile(Player player)
-        {
-            if (!tile.PlayersOnTile.Contains(player))
-            {
-                tile.PlayersOnTile.Add(player);
-            }
-
-            Invalidate(); // Vẽ lại để cập nhật người chơi trên tile
-        }
-
-        public void RemovePlayerOnTile(Player player)
-        {
-            if (tile.PlayersOnTile.Contains(player))
-            {
-                tile.PlayersOnTile.Remove(player);
-                Invalidate(); // Vẽ lại để cập nhật người chơi trên tile
-            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -70,7 +51,6 @@ namespace Monopoly.UI
             tile.OnRender(e.Graphics, bounds);
         }
 
-
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
@@ -80,13 +60,25 @@ namespace Monopoly.UI
                 TileClicked?.Invoke(this, new TileClickedEventArgs(Tile));
             }
         }
+
+        public void OnEnter(Player player)
+        {
+            tile.OnEnter(player);
+            Invalidate(); // Cập nhật giao diện khi có người chơi vào
+        }
+
+        public void OnLeave(Player player)
+        {
+            tile.OnLeave(player);
+            Invalidate(); // Cập nhật giao diện khi có người chơi rời
+        }
     }
 
     public class TileClickedEventArgs : EventArgs
     {
-        public ITileComponent Tile { get; }
+        public ITile Tile { get; }
 
-        public TileClickedEventArgs(ITileComponent tile)
+        public TileClickedEventArgs(ITile tile)
         {
             Tile = tile;
         }

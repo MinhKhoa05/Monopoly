@@ -11,7 +11,7 @@ namespace Monopoly.Tiles
             this.Symbol = symbol;
         }
 
-        public override void OnEnter(Player player) { }
+        //public override void OnEnter(Player player) { }
 
         protected override void DrawTileColor(Graphics g, Rectangle bounds)
         {

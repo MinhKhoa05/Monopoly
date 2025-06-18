@@ -17,12 +17,6 @@ namespace Monopoly.Tiles
             this.PriceLevel = priceLevel;
         }
 
-        public override void OnEnter(Player player)
-        {
-            // Logic for when a player enters this tile
-            // For example, check if the player can buy it or pay rent
-        }
-
         #region Rendering Overrides
         protected override void DrawTileColor(Graphics g, Rectangle bounds)
         {

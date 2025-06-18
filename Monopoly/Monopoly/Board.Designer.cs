@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Board));
             this.boardPanel = new System.Windows.Forms.Panel();
             this.panel14 = new System.Windows.Forms.Panel();
             this.dice2 = new System.Windows.Forms.PictureBox();
@@ -40,13 +41,13 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panelPlayer = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.topPanel = new System.Windows.Forms.Panel();
-            this.panelPlayer = new System.Windows.Forms.Panel();
             this.boardPanel.SuspendLayout();
             this.panel14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
@@ -81,7 +82,7 @@
             // 
             this.panel14.Controls.Add(this.dice2);
             this.panel14.Controls.Add(this.dice1);
-            this.panel14.Location = new System.Drawing.Point(96, 173);
+            this.panel14.Location = new System.Drawing.Point(278, 173);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(112, 64);
             this.panel14.TabIndex = 9;
@@ -192,6 +193,14 @@
             this.panel2.Size = new System.Drawing.Size(307, 202);
             this.panel2.TabIndex = 6;
             // 
+            // panelPlayer
+            // 
+            this.panelPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPlayer.Location = new System.Drawing.Point(0, 40);
+            this.panelPlayer.Name = "panelPlayer";
+            this.panelPlayer.Size = new System.Drawing.Size(305, 160);
+            this.panelPlayer.TabIndex = 1;
+            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.label1);
@@ -244,15 +253,7 @@
             this.topPanel.Size = new System.Drawing.Size(990, 65);
             this.topPanel.TabIndex = 0;
             // 
-            // panelPlayer
-            // 
-            this.panelPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPlayer.Location = new System.Drawing.Point(0, 40);
-            this.panelPlayer.Name = "panelPlayer";
-            this.panelPlayer.Size = new System.Drawing.Size(305, 160);
-            this.panelPlayer.TabIndex = 1;
-            // 
-            // Main
+            // Board
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
@@ -261,9 +262,9 @@
             this.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Main";
-            this.ShowIcon = false;
+            this.Name = "Board";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monopoly";
             this.Load += new System.EventHandler(this.Main_Load);

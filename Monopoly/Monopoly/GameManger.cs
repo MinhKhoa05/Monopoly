@@ -1,17 +1,13 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Monopoly.Tiles;
 
 namespace Monopoly {
     public class GameManager
     {
         public Player[] Players { get; private set; }
-        public int CurrentPlayerIndex { get; private set; }
-        public ITileComponent[] Tiles { get; private set; }
+        public ITile[] Tiles { get; private set; }
+        public int CurrentPlayerIndex { get; set; } = 0; // Index of the current player
         public Dice[] Dices { get; private set; }
-
-        public event Action<int, int> DiceRolled;
-        public event Action<Player> PlayerMoved;
 
         public GameManager()
         {
@@ -19,18 +15,14 @@ namespace Monopoly {
 
             Players = new Player[]
             {
-                new Player("Player 1", Color.Red),
-                new Player("Player 2", Color.Blue),
-                new Player("Player 3", Color.Green),
-                new Player("Player 4", Color.Yellow)
+                new Player("Hồ Nguyễn Minh Khoa", Color.Red, playerIndex: 0),
+                new Player("Hồ Nguyễn Minh Tiến", Color.Blue, playerIndex: 1),
+                new Player("Hồ Nguyễn Mai Phương", Color.LightGreen, playerIndex: 2),
+                new Player("Nguyễn Ngọc Chấn Đông", Color.Yellow, playerIndex: 3)
             };
 
-            for (int i = 0; i < Players.Length; i++)
-            {
-                Tiles[0].PlayersOnTile.Add(Players[i]);
-            }
-
             Dices = new Dice[2] { new Dice(), new Dice() };
+
         }
 
         public void Update()
@@ -40,7 +32,7 @@ namespace Monopoly {
 
         private void CreateBoard()
         {
-            Tiles = new ITileComponent[]
+            Tiles = new ITile[]
             {
                 TileFactory.CreateSpecialTile("XUẤT PHÁT", Color.LightYellow, "⬅"), // 0
                 TileFactory.CreatePropertyTile("CHÂU ĐỐC", Color.SaddleBrown, 600, 20), // 1
@@ -52,7 +44,7 @@ namespace Monopoly {
                 TileFactory.CreateSpecialTile("CƠ HỘI", Color.Orange, "❗"), // 7
                 TileFactory.CreatePropertyTile("ĐÀ LẠT", Color.LightSkyBlue, 1000, 60), // 8
                 TileFactory.CreatePropertyTile("HUẾ", Color.LightSkyBlue, 1200, 80), // 9
-                TileFactory.CreateSpecialTile("TÙ", Color.Orange, "🚓"), // 10
+                TileFactory.CreateSpecialTile("TRẠI GIAM", Color.Orange, "🔒"), // 10
 
                 TileFactory.CreatePropertyTile("HÀ NỘI", Color.HotPink, 1400, 100), // 11
                 TileFactory.CreateSpecialTile("ĐIỆN LỰC", Color.White, "⚡"), // 12
@@ -63,7 +55,7 @@ namespace Monopoly {
                 TileFactory.CreateSpecialTile("KHÍ VẬN", Color.LightBlue, "❓"), // 17
                 TileFactory.CreatePropertyTile("SAPA", Color.Orange, 1800, 140), // 18
                 TileFactory.CreatePropertyTile("HẠ LONG", Color.Orange, 2000, 160), // 19
-                TileFactory.CreateSpecialTile("ĐỖ XE", Color.Red, "🅿"), // 20
+                TileFactory.CreateSpecialTile("SÂN BAY", Color.Red, "🛫"), // 20
 
                 TileFactory.CreatePropertyTile("PHÚ QUỐC", Color.Red, 2200, 180), // 21
                 TileFactory.CreateSpecialTile("CƠ HỘI", Color.Orange, "❗"), // 22

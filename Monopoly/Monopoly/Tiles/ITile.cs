@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Monopoly.Tiles
 {
-    public interface ITileComponent
+    public interface ITile
     {
         string TileName { get; }
         Color TileColor { get; }
         void OnEnter(Player player);
         void OnRender(Graphics g, Rectangle bounds);
+        void OnLeave(Player player);
         string GetInfo();
-        List<Player> PlayersOnTile { get; set; } // Optional: to track players on the tile
     }
 }

@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="TileFactory.cs" />
     <Compile Include="Tiles\BaseTile.cs" />
-    <Compile Include="Tiles\ITileComponent.cs" />
+    <Compile Include="Tiles\ITile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Tiles\SpecialTile.cs" />
     <EmbeddedResource Include="Board.resx">
