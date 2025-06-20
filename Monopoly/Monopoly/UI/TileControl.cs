@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Monopoly.Renderers;
 using Monopoly.Tiles;
 
 namespace Monopoly.UI
@@ -31,24 +32,22 @@ namespace Monopoly.UI
         public TileControl(ITile tile) : this()
         {
             this.Tile = tile;
+
+            if (tile is PropertyTile propertyTile)
+            {
+                propertyTile.OnOfferToBuy += HandleOfferToBuy; // Đăng ký sự kiện mua bán
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            if (tile == null)
+            var renderer = TileRendererFactory.GetRenderer(Tile);
+            if (renderer != null)
             {
-                // Vẽ placeholder nếu chưa có tile
-                using (var font = new Font("Segoe UI", 8f))
-                {
-                    e.Graphics.DrawString("Empty Tile", font, Brushes.Gray, new PointF(10, 10));
-                }
-                return;
-            }
-
-            Rectangle bounds = new Rectangle(0, 0, this.Width, this.Height);
-            tile.OnRender(e.Graphics, bounds);
+                renderer.Render(Tile, e.Graphics, this.ClientRectangle);
+            }        
         }
 
         protected override void OnClick(EventArgs e)
@@ -63,6 +62,7 @@ namespace Monopoly.UI
 
         public void OnEnter(Player player)
         {
+            Invalidate(); // Cập nhật giao diện khi có người chơi vào
             tile.OnEnter(player);
             Invalidate(); // Cập nhật giao diện khi có người chơi vào
         }
@@ -72,7 +72,33 @@ namespace Monopoly.UI
             tile.OnLeave(player);
             Invalidate(); // Cập nhật giao diện khi có người chơi rời
         }
+
+        private void HandleOfferToBuy(Player player, PropertyTile property)
+        {
+            var result = MessageBox.Show(
+                $"{player.Name} có muốn mua {property.TileName} với giá ${property.Price} không?",
+                "Cơ hội đầu tư",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    player.Buy(property);
+                    property.HouseCount++;
+                    MessageBox.Show($"{player.Name} đã mua {property.TileName}!", "Giao dịch thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi giao dịch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+        }
     }
+
 
     public class TileClickedEventArgs : EventArgs
     {

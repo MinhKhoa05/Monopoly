@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Monopoly.Tiles;
@@ -27,6 +25,8 @@ namespace Monopoly
                     panelTileInfo.Visible = false;
                 }
             };
+
+            game.PlayerMoved += OnPlayerMoved; // Đăng ký sự kiện PlayerMoved
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -106,63 +106,35 @@ namespace Monopoly
             tileInfo.Text = tile.GetInfo();
         }
 
-        private void dice1_Click(object sender, EventArgs e)
-        {
-            DiceRoll();
-        }
-
-        private void dice2_Click(object sender, EventArgs e)
-        {
-            DiceRoll();
-        }
-
         private async void DiceRoll()
         {
-            int rollCount = 10; // Số lần tung
-            int delay = 50;     // Thời gian giữa mỗi lần tung (ms)
+            panelDice.Enabled = false;
+
+            int rollCount = 10;
+            int delay = 50;
 
             for (int i = 0; i < rollCount; i++)
             {
-                game.Dices[0].Roll();
-                game.Dices[1].Roll();
-
+                // Hiệu ứng tung xúc xắc
+                game.RollDices();
                 dice1.Image = game.Dices[0].Image;
                 dice2.Image = game.Dices[1].Image;
-
-                await Task.Delay(delay); // Đợi một chút để tạo hiệu ứng
+                await Task.Delay(delay);
             }
 
-            UpdateTile();
-        }
+            game.PlayerTurn(); // Gọi hàm sẽ kích hoạt sự kiện PlayerMoved
 
-        public void UpdateTile()
-        {
-            Player currentPlayer = game.Players[game.CurrentPlayerIndex];
-            int lastPosition = currentPlayer.Position;
-            tileControls[lastPosition].OnLeave(currentPlayer); // Loại bỏ người chơi khỏi ô cũ
+            game.NextPlayer();
+            HighlightCurrentPlayer();
 
-            // Cập nhật vị trí người chơi
-            int value = game.Dices[0].Value + game.Dices[1].Value;
-            currentPlayer.Position = (currentPlayer.Position + value); // Cập nhật vị trí người chơi
-
-            if (currentPlayer.Position >= 40)
-            {
-                currentPlayer.Money += 200; // Nhận tiền khi qua ô bắt đầu
-                currentPlayer.Position %= game.Tiles.Length; // Quay vòng nếu vượt quá
-                MessageBox.Show($"{currentPlayer.Name} đã qua ô XUẤT PHÁT và nhận được 200 tiền!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            tileControls[currentPlayer.Position].OnEnter(currentPlayer); // Cập nhật ô mới với người chơi
-            playerPanels[game.CurrentPlayerIndex].UpdateUI(); // Cập nhật giao diện người chơi hiện tại
-
-            game.CurrentPlayerIndex = (game.CurrentPlayerIndex + 1) % 4;
-            HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
+            panelDice.Enabled = true;
         }
 
         private void HighlightCurrentPlayer()
         {
             for (int i = 0; i < playerPanels.Length; i++)
             {
+                playerPanels[i].UpdateUI();
                 if (i == game.CurrentPlayerIndex)
                 {
                     playerPanels[i].PlayerTurned(); // Nổi bật người chơi hiện tại
@@ -173,5 +145,22 @@ namespace Monopoly
             }
         }
 
+        private void dice1_Click(object sender, EventArgs e)
+        {
+            DiceRoll();
+        }
+
+        private void OnPlayerMoved(object sender, PlayerMovedEventArgs e)
+        {
+            tileControls[e.From].OnLeave(e.Player);    // Rời tile cũ
+            tileControls[e.To].OnEnter(e.Player);      // Vào tile mới
+
+            playerPanels[e.Player.Index].UpdateUI();   // Cập nhật tiền, vị trí v.v...
+        }
+
+        private void dice2_Click(object sender, EventArgs e)
+        {
+            DiceRoll();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Monopoly.Tiles;
 
 namespace Monopoly {
@@ -9,25 +10,53 @@ namespace Monopoly {
         public int CurrentPlayerIndex { get; set; } = 0; // Index of the current player
         public Dice[] Dices { get; private set; }
 
+        public event EventHandler<PlayerMovedEventArgs> PlayerMoved;
+        public event EventHandler<Player> PlayerPassedStart;
+
         public GameManager()
         {
             CreateBoard();
 
             Players = new Player[]
             {
-                new Player("Hồ Nguyễn Minh Khoa", Color.Red, playerIndex: 0),
-                new Player("Hồ Nguyễn Minh Tiến", Color.Blue, playerIndex: 1),
-                new Player("Hồ Nguyễn Mai Phương", Color.LightGreen, playerIndex: 2),
-                new Player("Nguyễn Ngọc Chấn Đông", Color.Yellow, playerIndex: 3)
+                new Player("Hồ Nguyễn Minh Khoa", Color.Red, index: 0),
+                new Player("Hồ Nguyễn Minh Tiến", Color.Blue, index: 1),
+                new Player("Hồ Nguyễn Mai Phương", Color.LightGreen, index: 2),
+                new Player("Nguyễn Ngọc Chấn Đông", Color.Yellow, index: 3)
             };
 
             Dices = new Dice[2] { new Dice(), new Dice() };
-
         }
 
-        public void Update()
+        public void RollDices()
         {
-            Players[1].Money += 100; // Example of updating player money
+            foreach (var dice in Dices)
+            {
+                dice.Roll();
+            }
+        }
+
+        public void NextPlayer()
+        {
+            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Length;
+        }
+
+        public event EventHandler<PropertyTileOfferedEventArgs> PropertyOffered;
+
+        public void PlayerTurn()
+        {
+            Player player = Players[CurrentPlayerIndex];
+            int from = player.Position;
+            int value = Dices[0].Value + Dices[1].Value;
+            int to = player.Move(value);
+
+            if (to >= 40)
+            {
+                player.ReceiveMoney(2000);
+                PlayerPassedStart?.Invoke(this, player);
+            }
+
+            PlayerMoved?.Invoke(this, new PlayerMovedEventArgs(player, from, to));
         }
 
         private void CreateBoard()
@@ -79,81 +108,32 @@ namespace Monopoly {
                 TileFactory.CreatePropertyTile("HƯNG YÊN", Color.LightGreen, 4000, 500) // 39
             };
         }
-
-    //        // Helper method to get all property tiles
-    //        public List<PropertyTile> GetAllProperties()
-    //        {
-    //            var properties = new List<PropertyTile>();
-    //            foreach (var tile in tiles)
-    //            {
-    //                if (tile?.Tile is PropertyTile property)
-    //                {
-    //                    properties.Add(property);
-    //                }
-    //            }
-    //            return properties;
-    //        }
-
-    //        // Helper method to get properties by color group
-    //        public List<PropertyTile> GetPropertiesByColor(Color color)
-    //        {
-    //            return GetAllProperties().Where(p => p.TileColor == color).ToList();
-    //        }
-
-    //        private void dice1_Click(object sender, EventArgs e)
-    //        {
-    //            DiceRoll();
-    //        }
-
-    //        private void dice2_Click(object sender, EventArgs e)
-    //        {
-    //            DiceRoll();
-    //        }
-
-    //        private async void DiceRoll()
-    //        {
-    //            int rollCount = 10; // Số lần tung
-    //            int delay = 50;     // Thời gian giữa mỗi lần tung (ms)
-
-    //            for (int i = 0; i < rollCount; i++)
-    //            {
-    //                dices[0].Roll();
-    //                dices[1].Roll();
-
-    //                // Đảm bảo 2 viên ra số khác nhau (nếu bạn muốn)
-    //                while (dices[0].Value == dices[1].Value)
-    //                {
-    //                    dices[1].Roll();
-    //                }
-
-    //                dice1.Image = dices[0].Image;
-    //                dice2.Image = dices[1].Image;
-
-    //                await Task.Delay(delay); // Đợi một chút để tạo hiệu ứng
-    //            }
-
-    //            // Sau khi dừng, giữ kết quả cuối cùng (hoặc xử lý gì đó nếu cần)
-    //        }
-    //    }
-    //}
-
-
-    //public void RollDiceAndMove()
-    //{
-    //    Dices[0].Roll();
-    //    Dices[1].Roll();
-    //    int total = Dices[0].Value + Dices[1].Value;
-
-    //    DiceRolled?.Invoke(Dices[0].Value, Dices[1].Value);
-
-    //    Player current = Players[CurrentPlayerIndex];
-    //    current.Move(total, Tiles.Length);
-
-    //    PlayerMoved?.Invoke(current);
-
-    //    // Chuyển lượt nếu không được đi tiếp
-    //    if (Dices[0].Value != Dices[1].Value)
-    //        CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Length;
-    //}
     }
+
+    public class PlayerMovedEventArgs : EventArgs
+    {
+        public Player Player { get; }
+        public int From { get; }
+        public int To { get; }
+
+        public PlayerMovedEventArgs(Player player, int from, int to)
+        {
+            Player = player;
+            From = from;
+            To = to;
+        }
+    }
+
+    public class PropertyTileOfferedEventArgs : EventArgs
+    {
+        public Player Player { get; }
+        public PropertyTile Property { get; }
+
+        public PropertyTileOfferedEventArgs(Player player, PropertyTile property)
+        {
+            Player = player;
+            Property = property;
+        }
+    }
+
 }
