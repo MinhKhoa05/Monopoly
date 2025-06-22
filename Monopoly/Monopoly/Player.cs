@@ -11,24 +11,25 @@ namespace Monopoly
         public Color Color { get; set; }
         public int Money { get; private set; }
         public int Position { get; private set; }
-        public List<PropertyTile> properties { get; set; } = new List<PropertyTile>(); // Danh sách tài sản của người chơi
+        public List<PropertyTile> properties { get; set; } = new List<PropertyTile>();
 
-        public int Index { get; set; } // <= đây là chỉ số cố định, từ 0 đến 3
-
-        public Player(string name, Color color, int money = 20000, int index = 0)
+        public Player(string name, Color color, int money = 20000)
         {
             Name = name;
             Color = color;
             Money = money;
-            Index = index;
         }
 
-        public int Move(int steps)
+        public void Move(int steps)
         {
             if (steps < 0) throw new ArgumentException("Steps must be non-negative.");
-            Position += steps;
 
-            return Position;
+            Position += steps;
+            if (Position >= GameConfig.BoardSize)
+            {
+                Money += GameConfig.PassGoBonus; // Nhận tiền thưởng khi đi qua ô "Go"
+                Position %= GameConfig.BoardSize; // Quay về vị trí hợp lệ trên bàn cờ
+            }
         }
 
         public void PayRent(Player player, int amount)

@@ -16,14 +16,7 @@ namespace Monopoly
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new MainForm());
-            //Application.Run(new BoardGame());
-            //Application.Run(new Form1());
-            Application.Run(new Board());
-            //Application.Run();
-            //a.Ve();
-
-            string text = "❓, 🏠, 🚗, 💰, 🎲, 🃏, 🏦, 🏛️, 🏷️, ⛳, 🚓, 🛑";
+            Application.Run(new MainForm());
         }
     }
 }

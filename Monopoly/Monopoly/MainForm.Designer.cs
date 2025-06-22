@@ -1,6 +1,6 @@
 ﻿namespace Monopoly
 {
-    partial class Board
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Board));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.boardPanel = new System.Windows.Forms.Panel();
             this.panelDice = new System.Windows.Forms.Panel();
             this.dice2 = new System.Windows.Forms.PictureBox();
@@ -48,8 +48,6 @@
             this.leftPanel = new System.Windows.Forms.Panel();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.topPanel = new System.Windows.Forms.Panel();
-            this.specialTilePanel1 = new Monopoly.UI.SpecialTilePanel();
-            this.propertyTilePanel1 = new Monopoly.UI.PropertyTilePanel();
             this.boardPanel.SuspendLayout();
             this.panelDice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
@@ -67,8 +65,6 @@
             this.boardPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.boardPanel.Controls.Add(this.propertyTilePanel1);
-            this.boardPanel.Controls.Add(this.specialTilePanel1);
             this.boardPanel.Controls.Add(this.panelDice);
             this.boardPanel.Controls.Add(this.panelTileInfo);
             this.boardPanel.Controls.Add(this.panel15);
@@ -257,22 +253,6 @@
             this.topPanel.Size = new System.Drawing.Size(990, 65);
             this.topPanel.TabIndex = 0;
             // 
-            // specialTilePanel1
-            // 
-            this.specialTilePanel1.IsSelected = false;
-            this.specialTilePanel1.Location = new System.Drawing.Point(311, 334);
-            this.specialTilePanel1.Name = "specialTilePanel1";
-            this.specialTilePanel1.Size = new System.Drawing.Size(90, 65);
-            this.specialTilePanel1.TabIndex = 10;
-            // 
-            // propertyTilePanel1
-            // 
-            this.propertyTilePanel1.IsSelected = false;
-            this.propertyTilePanel1.Location = new System.Drawing.Point(399, 441);
-            this.propertyTilePanel1.Name = "propertyTilePanel1";
-            this.propertyTilePanel1.Size = new System.Drawing.Size(90, 65);
-            this.propertyTilePanel1.TabIndex = 11;
-            // 
             // Board
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -322,7 +302,5 @@
         private System.Windows.Forms.PictureBox dice2;
         private System.Windows.Forms.Label tileName;
         private System.Windows.Forms.Panel panelPlayer;
-        private UI.PropertyTilePanel propertyTilePanel1;
-        private UI.SpecialTilePanel specialTilePanel1;
     }
 }

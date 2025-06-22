@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Monopoly.Renderers;
@@ -6,9 +7,14 @@ using Monopoly.Tiles;
 
 namespace Monopoly.UI
 {
+    /// <summary>
+    /// Điều khiển UI đại diện cho một ô trong game Monopoly.
+    /// </summary>
     public class TileControl : UserControl
     {
         private ITile tile;
+        private readonly List<Player> playersOnTile = new List<Player>();
+
         public event EventHandler<TileClickedEventArgs> TileClicked;
 
         public ITile Tile
@@ -17,25 +23,25 @@ namespace Monopoly.UI
             set
             {
                 tile = value;
-                Invalidate(); // Vẽ lại nếu đổi tile
+                Invalidate();
             }
         }
 
         public TileControl()
         {
-            this.DoubleBuffered = true;
-            this.Width = 90;
-            this.Height = 65;
-            this.BackColor = Color.White;
+            DoubleBuffered = true;
+            Width = 90;
+            Height = 65;
+            BackColor = Color.White;
         }
 
         public TileControl(ITile tile) : this()
         {
-            this.Tile = tile;
+            Tile = tile;
 
             if (tile is PropertyTile propertyTile)
             {
-                propertyTile.OnOfferToBuy += HandleOfferToBuy; // Đăng ký sự kiện mua bán
+                propertyTile.OnOfferToBuy += HandleOfferToBuy;
             }
         }
 
@@ -43,11 +49,10 @@ namespace Monopoly.UI
         {
             base.OnPaint(e);
 
-            var renderer = TileRendererFactory.GetRenderer(Tile);
-            if (renderer != null)
-            {
-                renderer.Render(Tile, e.Graphics, this.ClientRectangle);
-            }        
+            if (Tile == null) return;
+
+            var renderer = TileRendererProvider.GetRenderer(Tile);
+            renderer?.RenderTile(e.Graphics, ClientRectangle, Tile, playersOnTile);
         }
 
         protected override void OnClick(EventArgs e)
@@ -62,15 +67,20 @@ namespace Monopoly.UI
 
         public void OnEnter(Player player)
         {
-            Invalidate(); // Cập nhật giao diện khi có người chơi vào
-            tile.OnEnter(player);
-            Invalidate(); // Cập nhật giao diện khi có người chơi vào
+            if (!playersOnTile.Contains(player))
+                playersOnTile.Add(player);
+
+            Invalidate();
+            Tile?.OnEnter(player);
+            Invalidate();
         }
 
         public void OnLeave(Player player)
         {
-            tile.OnLeave(player);
-            Invalidate(); // Cập nhật giao diện khi có người chơi rời
+            playersOnTile.Remove(player);
+
+            Tile?.OnLeave(player);
+            Invalidate();
         }
 
         private void HandleOfferToBuy(Player player, PropertyTile property)
@@ -82,24 +92,34 @@ namespace Monopoly.UI
                 MessageBoxIcon.Question
             );
 
-            if (result == DialogResult.Yes)
+            if (result != DialogResult.Yes) return;
+
+            try
             {
-                try
-                {
-                    player.Buy(property);
-                    property.HouseCount++;
-                    MessageBox.Show($"{player.Name} đã mua {property.TileName}!", "Giao dịch thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    MessageBox.Show(ex.Message, "Lỗi giao dịch", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                player.Buy(property);
+                property.HouseCount++;
+                MessageBox.Show(
+                    $"{player.Name} đã mua {property.TileName}!",
+                    "Giao dịch thành công",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Lỗi giao dịch",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }
 
-
+    /// <summary>
+    /// Event args cho sự kiện click vào ô.
+    /// </summary>
     public class TileClickedEventArgs : EventArgs
     {
         public ITile Tile { get; }

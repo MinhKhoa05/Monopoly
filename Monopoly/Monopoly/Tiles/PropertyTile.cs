@@ -8,7 +8,7 @@ namespace Monopoly.Tiles
         public int Price { get; set; }
         public Player Owner { get; set; }
         public int PriceLevel { get; set; }
-        public int HouseCount { get; set; } = 4;
+        public int HouseCount { get; set; }
         public Action<Player, PropertyTile> OnOfferToBuy;
 
         public PropertyTile(string tileName, Color tileColor, int price, int priceLevel)
