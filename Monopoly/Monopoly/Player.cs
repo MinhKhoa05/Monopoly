@@ -11,12 +11,14 @@ namespace Monopoly
         public Color Color { get; set; }
         public int Money { get; private set; }
         public int Position { get; private set; }
+        public string Token { get; set; }
         public List<PropertyTile> properties { get; set; } = new List<PropertyTile>();
 
-        public Player(string name, Color color, int money = 20000)
+        public Player(string name, Color color, string token = "⭐", int money = 20000)
         {
             Name = name;
             Color = color;
+            Token = token;
             Money = money;
         }
 
@@ -63,6 +65,11 @@ namespace Monopoly
         {
             if (amount < 0) throw new ArgumentException("Amount must be non-negative.");
             Money += amount;
+        }
+
+        public string GetInfo()
+        {
+            return $"({Position}) {Name} - {Money}$";
         }
     }
 }

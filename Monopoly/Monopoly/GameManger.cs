@@ -7,7 +7,6 @@ namespace Monopoly
     {
         public Player[] Players { get; private set; }
         public Board Board { get; private set; } = new Board();
-        public ITile[] Tiles { get; private set; }
         public int CurrentPlayerIndex { get; set; } = 0; // Index of the current player
         public Dice[] Dices { get; private set; }
 
@@ -18,7 +17,7 @@ namespace Monopoly
                 new Player("Hồ Nguyễn Minh Khoa", Color.Red),
                 new Player("Hồ Nguyễn Minh Tiến", Color.Blue),
                 new Player("Hồ Nguyễn Mai Phương", Color.LightGreen),
-                new Player("Nguyễn Ngọc Chấn Đông", Color.Yellow)
+                new Player("Nguyễn Ngọc Chấn Đông", Color.Orange)
             };
 
             Dices = new Dice[2] { new Dice(), new Dice() };

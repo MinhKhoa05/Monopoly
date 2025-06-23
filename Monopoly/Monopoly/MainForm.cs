@@ -9,9 +9,9 @@ namespace Monopoly
     public partial class MainForm : Form
     {
         private GameManager game;
-        public PlayerPanel[] playerPanels = new PlayerPanel[4];
-        public TileControl[] tileControls = new TileControl[40];
-
+        public PlayerInfoControl[] playerPanels = new PlayerInfoControl[4];
+        public BaseTileControl[] tileControls = new BaseTileControl[40];
+        
         public MainForm()
         {
             InitializeComponent();
@@ -28,11 +28,10 @@ namespace Monopoly
 
             foreach (var player in game.Players)
             {
-                int pos = player.Position; // Đặt vị trí ban đầu cho người chơi
-                tileControls[pos].OnEnter(player); // Đặt người chơi vào ô ban đầu
+                tileControls[0].AddPlayerToken(player.Token, player.Color); // Thêm token cho người chơi đầu tiên 
             }
 
-            HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
+            //HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
         }
 
         private void InitBoard()
@@ -55,7 +54,8 @@ namespace Monopoly
 
             for (int i = 0; i < game.Players.Length; i++)
             {
-                playerPanels[i] = new PlayerPanel(game.Players[i]);
+                playerPanels[i] = new PlayerInfoControl(game.Players[i]);
+                playerPanels[i].Dock = DockStyle.Top;
             }
 
             for (int i = game.Players.Length - 1; i >= 0; i--)
@@ -66,13 +66,22 @@ namespace Monopoly
 
         private void AddTilesToPanel(int start, int end, DockStyle dock, Panel panel)
         {
-            TileControl tileControl;
+            BaseTileControl tileControl;
             for (int i = start; i < end; i++)
             {
-                tileControl = new TileControl(game.Tiles[i]);
-                tileControl.TileClicked += OnTileClicked;
+                ITile tile = game.Board.Tiles[i];
+
+                if (tile is PropertyTile)
+                {
+                    tileControl = new PropertyTileControl(tile);
+                } else
+                {
+                    tileControl = new SpecialTileControl(tile);
+                }
+
                 tileControl.Dock = dock;
                 panel.Controls.Add(tileControl);
+                tileControl.TileClicked += OnTileClicked; // Đăng ký sự kiện khi người dùng click vào ô
                 tileControls[i] = tileControl; // Lưu trữ TileControl để có thể truy cập sau này
             }
         }
@@ -85,11 +94,7 @@ namespace Monopoly
         private void UpdateTileInfoUI(ITile tile)
         {
             if (tile == null) return;
-            if (!panelTileInfo.Visible)
-            {
-                panelTileInfo.Visible = true;
-            }
-
+            panelTileInfo.Visible = true;
             tileColor.BackColor = tile.TileColor; // Assuming ITileComponent has a TileColor property
             tileName.Text = "Ô: " + tile.TileName; // Assuming ITileComponent has a TileName property
             tileInfo.Text = tile.GetInfo();
@@ -114,25 +119,25 @@ namespace Monopoly
             game.PlayerTurn(); // Gọi hàm sẽ kích hoạt sự kiện PlayerMoved
 
             game.NextPlayer();
-            HighlightCurrentPlayer();
+            //HighlightCurrentPlayer();
 
             panelDice.Enabled = true;
         }
 
-        private void HighlightCurrentPlayer()
-        {
-            for (int i = 0; i < playerPanels.Length; i++)
-            {
-                playerPanels[i].UpdateUI();
-                if (i == game.CurrentPlayerIndex)
-                {
-                    playerPanels[i].PlayerTurned(); // Nổi bật người chơi hiện tại
-                } else
-                {
-                    playerPanels[i].PlayerFinishedTurn();
-                }
-            }
-        }
+        //private void HighlightCurrentPlayer()
+        //{
+        //    for (int i = 0; i < playerPanels.Length; i++)
+        //    {
+        //        playerPanels[i].UpdateUI();
+        //        if (i == game.CurrentPlayerIndex)
+        //        {
+        //            playerPanels[i].PlayerTurned(); // Nổi bật người chơi hiện tại
+        //        } else
+        //        {
+        //            playerPanels[i].PlayerFinishedTurn();
+        //        }
+        //    }
+        //}
 
         private void dice1_Click(object sender, EventArgs e)
         {

@@ -253,7 +253,7 @@
             this.topPanel.Size = new System.Drawing.Size(990, 65);
             this.topPanel.TabIndex = 0;
             // 
-            // Board
+            // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
@@ -264,7 +264,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Board";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monopoly";
             this.Load += new System.EventHandler(this.Main_Load);
