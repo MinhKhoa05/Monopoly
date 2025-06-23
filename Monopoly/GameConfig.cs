@@ -42,5 +42,7 @@
 
         // Số nhà tối đa trước khi xây khách sạn
         public const int MaxHousesPerProperty = 4;
+
+        public const string HouseIcon = "🏰 🏠";
     }
 }

@@ -1,4 +1,5 @@
 ﻿//using Monopoly.Core.Tiles;
+using System.Drawing;
 using Monopoly.Tiles;
 
 namespace Monopoly.UI
@@ -11,25 +12,17 @@ namespace Monopoly.UI
             private set => base.Tile = value;
         }
 
-        public PropertyTileControl()
-        {
-            this.labelTop.Text = "QUẢNG NINH";
-            this.labelMiddle.Text = "$200";
-            this.labelHouse.Text = "🏰 🏠";
-        }
+        public PropertyTileControl() : this(new PropertyTile("LONG AN", Color.Orange, 200, 1)) { }
 
-        public PropertyTileControl(ITile tile) : base(tile)
-        {
-            UpdateUI();
-        }
+        public PropertyTileControl(ITile tile) : base(tile) { }
 
-        public void UpdateUI()
+        public override void UpdateUI()
         {
+            base.UpdateUI();
 
-            this.BackColor = Tile.TileColor;
             this.labelTop.Text = Tile.TileName;
             this.labelMiddle.Text = $"${Tile.Price}";
-            //this.labelHouse.BackColor = Color.Orange;
+            this.labelHouse.BackColor = Tile.Owner?.Color ?? Color.Silver;
             //this.labelHouse.Text = $"{Tile.HouseCount} 🏠 {Tile.HotelCount} 🏰";
         }
     }

@@ -16,6 +16,7 @@ namespace Monopoly
         {
             InitializeComponent();
             game = new GameManager();
+            game.PlayerMove += UpdatePlayer;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -28,10 +29,10 @@ namespace Monopoly
 
             foreach (var player in game.Players)
             {
-                tileControls[0].AddPlayerToken(player.Token, player.Color); // Thêm token cho người chơi đầu tiên 
+                tileControls[0].Add(player); // Thêm token cho người chơi đầu tiên 
             }
 
-            //HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
+            HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
         }
 
         private void InitBoard()
@@ -86,6 +87,12 @@ namespace Monopoly
             }
         }
 
+        private void UpdatePlayer(object sender, PlayerMoveEvent e)
+        {
+            tileControls[e.From].Remove(e.Player);
+            tileControls[e.To].Add(e.Player);
+        }
+
         private void OnTileClicked(object sender, TileClickedEventArgs e)
         {
             UpdateTileInfoUI(e.Tile);
@@ -119,25 +126,19 @@ namespace Monopoly
             game.PlayerTurn(); // Gọi hàm sẽ kích hoạt sự kiện PlayerMoved
 
             game.NextPlayer();
-            //HighlightCurrentPlayer();
+            HighlightCurrentPlayer();
 
             panelDice.Enabled = true;
         }
 
-        //private void HighlightCurrentPlayer()
-        //{
-        //    for (int i = 0; i < playerPanels.Length; i++)
-        //    {
-        //        playerPanels[i].UpdateUI();
-        //        if (i == game.CurrentPlayerIndex)
-        //        {
-        //            playerPanels[i].PlayerTurned(); // Nổi bật người chơi hiện tại
-        //        } else
-        //        {
-        //            playerPanels[i].PlayerFinishedTurn();
-        //        }
-        //    }
-        //}
+        private void HighlightCurrentPlayer()
+        {
+            for (int i = 0; i < playerPanels.Length; i++)
+            {
+                playerPanels[i].UpdateUI();
+                playerPanels[i].IsCurrentPlayer = (i == game.CurrentPlayerIndex);
+            }
+        }
 
         private void dice1_Click(object sender, EventArgs e)
         {

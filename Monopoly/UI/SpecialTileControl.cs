@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Drawing;
 using Monopoly.Tiles;
 
 namespace Monopoly.UI
@@ -13,36 +11,29 @@ namespace Monopoly.UI
             private set => base.Tile = value;
         }
 
-        public SpecialTileControl()
-        {
-            this.SetUp();
-            this.labelTop.Text = "❓";
-            this.labelMiddle.Text = "CƠ HỘI";
-        }
+        public SpecialTileControl() : this(new SpecialTile("CƠ HỘI", Color.LightBlue, "❓")) { }
 
         public SpecialTileControl(ITile tile) : base(tile)
         {
-            this.SetUp();
-            UpdateUI();
+            Initialize();
         }
 
-        public void UpdateUI()
+        public override void UpdateUI()
         {
-            this.BackColor = Tile.TileColor;
-
-            this.labelTop.Text = Tile.Symbol;
-            this.labelMiddle.Text = Tile.TileName;
+            base.UpdateUI();
+            labelTop.Text = Tile?.Symbol ?? string.Empty;
+            labelMiddle.Text = Tile?.TileName ?? string.Empty;
         }
 
-        private void SetUp()
+        private void Initialize()
         {
-            this.labelTop.Font = new Font("Segoe UI Emoji", 14.25F, FontStyle.Regular);
-            this.labelTop.Size = new Size(90, 25);
+            labelTop.Font = new Font("Segoe UI Emoji", 14.25F);
+            labelTop.Size = new Size(90, 25);
 
-            this.labelMiddle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.labelMiddle.Size = new Size(90, 24);
+            labelMiddle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            labelMiddle.Size = new Size(90, 24);
 
-            this.labelHouse.Visible = false;
+            labelHouse.Visible = false;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Monopoly.Tiles
 {
@@ -11,7 +10,7 @@ namespace Monopoly.Tiles
         protected BaseTile(string tileName, Color tileColor)
         {
             TileName = tileName;
-            TileColor = Helper.LightenColor(tileColor);
+            TileColor = tileColor;
         }
 
         public virtual void OnEnter(Player player)
