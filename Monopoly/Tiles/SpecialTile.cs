@@ -10,5 +10,7 @@ namespace Monopoly.Tiles
         {
             this.Symbol = symbol;
         }
+
+        public override void OnEnter(Player player) { }
     }
 }

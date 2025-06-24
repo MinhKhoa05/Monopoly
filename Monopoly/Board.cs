@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Monopoly.UI;
+using Monopoly.Events;
 
 namespace Monopoly
 {
@@ -41,12 +42,14 @@ namespace Monopoly
             var player = (Player)sender;
 
             TileControls[e.OldPosition].HideToken(player);
-            TileControls[e.NewPosition].OnEnter(player);
+            TileControls[e.NewPosition].ShowToken(player);
 
             if (e.PassedGo)
             {
                 MessageBox.Show($"{player.Name} đã đi qua ô GO và nhận {GameConfig.PassGoBonus}$");
             }
+
+            TileControls[e.NewPosition].OnEnter(player);
         }
     }
 }

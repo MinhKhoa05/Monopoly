@@ -29,15 +29,11 @@ namespace Monopoly
             Board.PlacePlayersAtStart(Players);
         }
 
-        public void NextPlayerTurn()
-        {
-            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Length;
-        }
-
         public void ExecutePlayerTurn()
         {
             int totalMove = Dices[0].Value + Dices[1].Value;
             CurrentPlayer.Move(totalMove);
+            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % Players.Length;
         }
     }
 }

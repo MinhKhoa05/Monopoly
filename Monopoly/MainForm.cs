@@ -71,12 +71,7 @@ namespace Monopoly
 
         private void TileControl_TileClicked(object sender, TileClickedEventArgs e)
         {
-            ShowTileInfo(e.Tile);
-        }
-
-        private void ShowTileInfo(BaseTile tile)
-        {
-            tileInfoControl1.Tile = tile;
+            tileInfoControl1.Tile = e.Tile;
         }
 
         private async void RollDiceWithAnimation()
@@ -92,9 +87,6 @@ namespace Monopoly
             );
 
             _gameManager.ExecutePlayerTurn();
-            HighlightActivePlayer();
-
-            _gameManager.NextPlayerTurn();
             HighlightActivePlayer();
 
             panelDice.Enabled = true;
