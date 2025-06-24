@@ -8,12 +8,12 @@ namespace Monopoly.UI
         public new SpecialTile Tile
         {
             get => base.Tile as SpecialTile;
-            private set => base.Tile = value;
+            protected set => base.Tile = value;
         }
 
         public SpecialTileControl() : this(new SpecialTile("CƠ HỘI", Color.LightBlue, "❓")) { }
 
-        public SpecialTileControl(ITile tile) : base(tile)
+        public SpecialTileControl(BaseTile tile) : base(tile)
         {
             Initialize();
         }
@@ -22,7 +22,7 @@ namespace Monopoly.UI
         {
             base.UpdateUI();
             labelTop.Text = Tile?.Symbol ?? string.Empty;
-            labelMiddle.Text = Tile?.TileName ?? string.Empty;
+            labelMiddle.Text = Tile?.Name ?? string.Empty;
         }
 
         private void Initialize()

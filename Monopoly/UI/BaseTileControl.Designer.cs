@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.labelTop = new System.Windows.Forms.Label();
-            this.labelMiddle = new System.Windows.Forms.Label();
             this.labelHouse = new System.Windows.Forms.Label();
+            this.labelMiddle = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelTop
@@ -43,17 +43,6 @@
             this.labelTop.TabIndex = 0;
             this.labelTop.Text = "labelTop";
             this.labelTop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelMiddle
-            // 
-            this.labelMiddle.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMiddle.ForeColor = System.Drawing.Color.Black;
-            this.labelMiddle.Location = new System.Drawing.Point(0, 30);
-            this.labelMiddle.Name = "labelMiddle";
-            this.labelMiddle.Size = new System.Drawing.Size(90, 12);
-            this.labelMiddle.TabIndex = 2;
-            this.labelMiddle.Text = "labelMiddle";
-            this.labelMiddle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelHouse
             // 
@@ -68,6 +57,18 @@
             this.labelHouse.TabIndex = 6;
             this.labelHouse.Text = "🏰 🏠";
             this.labelHouse.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // labelMiddle
+            // 
+            this.labelMiddle.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMiddle.ForeColor = System.Drawing.Color.Black;
+            this.labelMiddle.Location = new System.Drawing.Point(0, 30);
+            this.labelMiddle.Name = "labelMiddle";
+            this.labelMiddle.Size = new System.Drawing.Size(90, 12);
+            this.labelMiddle.TabIndex = 2;
+            this.labelMiddle.Text = "labelMiddle";
+            this.labelMiddle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+          
             // 
             // BaseTileControl
             // 

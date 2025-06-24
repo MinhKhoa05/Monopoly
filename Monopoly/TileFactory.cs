@@ -1,18 +1,19 @@
 ﻿using System.Drawing;
 using Monopoly.Tiles;
+using Monopoly.UI;
 
 namespace Monopoly
 {
     public static class TileFactory
     {
-        public static ITile CreatePropertyTile(string name, Color color, int rent, int lvl)
+        public static BaseTileControl CreatePropertyTile(string name, Color color, int rent, int lvl)
         {
-            return new PropertyTile(name, color, rent, lvl);
+            return new PropertyTileControl(new PropertyTile(name, color, rent, lvl));
         }
 
-        public static ITile CreateSpecialTile(string name, Color color, string symbol)
+        public static BaseTileControl CreateSpecialTile(string name, Color color, string symbol)
         {
-            return new SpecialTile(name, color, symbol);
+            return new SpecialTileControl(new SpecialTile(name, color, symbol));
         }
     }
 }

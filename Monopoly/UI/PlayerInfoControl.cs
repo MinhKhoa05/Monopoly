@@ -18,17 +18,19 @@ namespace Monopoly.UI
             }
         }
 
-        public PlayerInfoControl() : this(new Player("Default Player", Color.Silver)) { }
+        public PlayerInfoControl() : this(new Player(0, "Default Player", Color.Silver)) { }
 
         public PlayerInfoControl(Player player)
         {
             InitializeComponent();
+            this.Dock = DockStyle.Top;
 
             Player = player;
-            UpdateUI();
+
+            UpdatePlayerUI();
         }
 
-        public void UpdateUI()
+        public void UpdatePlayerUI()
         {
             if (Player == null) return;
 

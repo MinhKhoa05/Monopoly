@@ -57,7 +57,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="MyEvent.cs" />
+    <Compile Include="TileConfig.cs" />
     <Compile Include="UI\BaseTileControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -80,9 +80,14 @@
     </Compile>
     <Compile Include="TileFactory.cs" />
     <Compile Include="Tiles\BaseTile.cs" />
-    <Compile Include="Tiles\ITile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Tiles\SpecialTile.cs" />
+    <Compile Include="UI\TileInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TileInfoControl.Designer.cs">
+      <DependentUpon>TileInfoControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SpecialTileControl.resx">
       <DependentUpon>SpecialTileControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TileInfoControl.resx">
+      <DependentUpon>TileInfoControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

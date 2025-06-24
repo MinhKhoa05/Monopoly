@@ -8,36 +8,28 @@ namespace Monopoly
 {
     public partial class MainForm : Form
     {
-        private GameManager game;
-        public PlayerInfoControl[] playerPanels = new PlayerInfoControl[4];
-        public BaseTileControl[] tileControls = new BaseTileControl[40];
-        
+        private readonly GameManager _gameManager = new GameManager();
+        private readonly PlayerInfoControl[] _playerInfoControls = new PlayerInfoControl[4];
+
         public MainForm()
         {
             InitializeComponent();
-            game = new GameManager();
-            game.PlayerMove += UpdatePlayer;
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            InitBoard();
-            InitPlayerPanels();
+            InitializeBoardUI();
+            InitializePlayerPanels();
+            UpdateDiceImages();
+            HighlightActivePlayer();
 
-            dice1.Image = game.Dices[0].Image;
-            dice2.Image = game.Dices[1].Image;
-
-            foreach (var player in game.Players)
-            {
-                tileControls[0].Add(player); // Thêm token cho người chơi đầu tiên 
-            }
-
-            HighlightCurrentPlayer(); // Nổi bật người chơi hiện tại
+            // Sự kiện xúc xắc thay đổi ảnh tự động
+            _gameManager.Dices[0].Rolled += (s, _) => dice1Image.Image = _gameManager.Dices[0].Image;
+            _gameManager.Dices[1].Rolled += (s, _) => dice2Image.Image = _gameManager.Dices[1].Image;
         }
 
-        private void InitBoard()
+        private void InitializeBoardUI()
         {
-            // Clear existing controls
             bottomPanel.Controls.Clear();
             leftPanel.Controls.Clear();
             topPanel.Controls.Clear();
@@ -49,105 +41,76 @@ namespace Monopoly
             AddTilesToPanel(31, 40, DockStyle.Bottom, rightPanel);
         }
 
-        private void InitPlayerPanels()
+        private void InitializePlayerPanels()
         {
             panelPlayer.Controls.Clear();
 
-            for (int i = 0; i < game.Players.Length; i++)
+            for (int i = _gameManager.Players.Length - 1; i >= 0; i--)
             {
-                playerPanels[i] = new PlayerInfoControl(game.Players[i]);
-                playerPanels[i].Dock = DockStyle.Top;
-            }
-
-            for (int i = game.Players.Length - 1; i >= 0; i--)
-            {
-                panelPlayer.Controls.Add(playerPanels[i]);
+                _playerInfoControls[i] = new PlayerInfoControl(_gameManager.Players[i]);
+                panelPlayer.Controls.Add(_playerInfoControls[i]);
             }
         }
 
-        private void AddTilesToPanel(int start, int end, DockStyle dock, Panel panel)
+        private void UpdateDiceImages()
         {
-            BaseTileControl tileControl;
-            for (int i = start; i < end; i++)
+            dice1Image.Image = _gameManager.Dices[0].Image;
+            dice2Image.Image = _gameManager.Dices[1].Image;
+        }
+
+        private void AddTilesToPanel(int startIndex, int endIndex, DockStyle dockStyle, Panel targetPanel)
+        {
+            for (int i = startIndex; i < endIndex; i++)
             {
-                ITile tile = game.Board.Tiles[i];
-
-                if (tile is PropertyTile)
-                {
-                    tileControl = new PropertyTileControl(tile);
-                } else
-                {
-                    tileControl = new SpecialTileControl(tile);
-                }
-
-                tileControl.Dock = dock;
-                panel.Controls.Add(tileControl);
-                tileControl.TileClicked += OnTileClicked; // Đăng ký sự kiện khi người dùng click vào ô
-                tileControls[i] = tileControl; // Lưu trữ TileControl để có thể truy cập sau này
+                var tileControl = _gameManager.Board.TileControls[i];
+                tileControl.Dock = dockStyle;
+                tileControl.TileClicked += TileControl_TileClicked;
+                targetPanel.Controls.Add(tileControl);
             }
         }
 
-        private void UpdatePlayer(object sender, PlayerMoveEvent e)
+        private void TileControl_TileClicked(object sender, TileClickedEventArgs e)
         {
-            tileControls[e.From].Remove(e.Player);
-            tileControls[e.To].Add(e.Player);
+            ShowTileInfo(e.Tile);
         }
 
-        private void OnTileClicked(object sender, TileClickedEventArgs e)
+        private void ShowTileInfo(BaseTile tile)
         {
-            UpdateTileInfoUI(e.Tile);
+            tileInfoControl1.Tile = tile;
         }
 
-        private void UpdateTileInfoUI(ITile tile)
-        {
-            if (tile == null) return;
-            panelTileInfo.Visible = true;
-            tileColor.BackColor = tile.TileColor; // Assuming ITileComponent has a TileColor property
-            tileName.Text = "Ô: " + tile.TileName; // Assuming ITileComponent has a TileName property
-            tileInfo.Text = tile.GetInfo();
-        }
-
-        private async void DiceRoll()
+        private async void RollDiceWithAnimation()
         {
             panelDice.Enabled = false;
 
-            int rollCount = 10;
-            int delay = 50;
+            const int totalRolls = 10;
+            const int rollDelay = 50;
 
-            for (int i = 0; i < rollCount; i++)
-            {
-                // Hiệu ứng tung xúc xắc
-                game.RollDices();
-                dice1.Image = game.Dices[0].Image;
-                dice2.Image = game.Dices[1].Image;
-                await Task.Delay(delay);
-            }
+            await Task.WhenAll(
+                _gameManager.Dices[0].RollWithEffect(totalRolls, rollDelay),
+                _gameManager.Dices[1].RollWithEffect(totalRolls, rollDelay)
+            );
 
-            game.PlayerTurn(); // Gọi hàm sẽ kích hoạt sự kiện PlayerMoved
+            _gameManager.ExecutePlayerTurn();
+            HighlightActivePlayer();
 
-            game.NextPlayer();
-            HighlightCurrentPlayer();
+            _gameManager.NextPlayerTurn();
+            HighlightActivePlayer();
 
             panelDice.Enabled = true;
         }
 
-        private void HighlightCurrentPlayer()
+        private void HighlightActivePlayer()
         {
-            for (int i = 0; i < playerPanels.Length; i++)
+            for (int i = 0; i < _playerInfoControls.Length; i++)
             {
-                playerPanels[i].UpdateUI();
-                playerPanels[i].IsCurrentPlayer = (i == game.CurrentPlayerIndex);
+                if (_playerInfoControls[i] == null) continue;
+
+                _playerInfoControls[i].IsCurrentPlayer = (i == _gameManager.CurrentPlayerIndex);
+                _playerInfoControls[i].UpdatePlayerUI();
             }
         }
 
-        private void dice1_Click(object sender, EventArgs e)
-        {
-            DiceRoll();
-        }
-
-        private void dice2_Click(object sender, EventArgs e)
-        {
-            DiceRoll();
-        }
+        private void panelDice_Click(object sender, EventArgs e) => RollDiceWithAnimation();
     }
 }

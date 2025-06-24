@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Monopoly
 {
@@ -8,9 +9,12 @@ namespace Monopoly
         private static readonly Random _random = new Random();
         public int Value { get; private set; }
 
+        public event EventHandler Rolled; // Sự kiện mỗi lần hiện số mới
+
         public Bitmap Image
         {
-            get {
+            get
+            {
                 switch (Value)
                 {
                     case 1: return Properties.Resources.dice_1;
@@ -26,12 +30,20 @@ namespace Monopoly
 
         public Dice()
         {
-            Roll(); // Initialize with a random value
+            Value = _random.Next(1, 7);
         }
 
-        public void Roll()
+        /// <summary>
+        /// Roll có hiệu ứng nhảy số liên tục, sau đó dừng lại.
+        /// </summary>
+        public async Task RollWithEffect(int rollTimes = 10, int delayMs = 100)
         {
-            Value = _random.Next(1, 7); // Generates a number between 1 and 6
+            for (int i = 0; i < rollTimes; i++)
+            {
+                Value = _random.Next(1, 7);
+                Rolled?.Invoke(this, EventArgs.Empty); // Gọi sự kiện sau mỗi lần random
+                await Task.Delay(delayMs);
+            }
         }
     }
 }

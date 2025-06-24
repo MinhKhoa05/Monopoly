@@ -1,29 +1,30 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Monopoly.Tiles
 {
-    public abstract class BaseTile : ITile
+    public abstract class BaseTile
     {
-        public string TileName { get; set; }
-        public Color TileColor { get; set; }
+        public string Name { get; }
+        public Color Color { get; }
 
-        protected BaseTile(string tileName, Color tileColor)
+        protected BaseTile(string name, Color color)
         {
-            TileName = tileName;
-            TileColor = tileColor;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Color = Helper.LightenColor(color);
         }
 
-        public virtual void OnEnter(Player player)
-        {
-        }
+        /// <summary>
+        /// Hành động khi người chơi đi vào ô này.
+        /// </summary>
+        public abstract void OnEnter(Player player);
 
-        public virtual void OnLeave(Player player)
-        {
-        }
-
+        /// <summary>
+        /// Lấy thông tin mô tả của ô.
+        /// </summary>
         public virtual string GetInfo()
         {
-            return $"Thông tin ô {TileName}";
+            return $"Thông tin ô {Name}";
         }
     }
 }

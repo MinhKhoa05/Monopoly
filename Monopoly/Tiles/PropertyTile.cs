@@ -20,8 +20,6 @@ namespace Monopoly.Tiles
 
         public override void OnEnter(Player player)
         {
-            base.OnEnter(player);
-
             if (Owner == null)
                 OnOfferToBuy?.Invoke(player, this);
             else if (Owner != player)

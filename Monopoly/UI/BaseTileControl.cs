@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Monopoly.Tiles;
@@ -8,11 +7,20 @@ namespace Monopoly.UI
 {
     public partial class BaseTileControl : UserControl
     {
-        public ITile Tile { get; set; }
-        public event EventHandler<TileClickedEventArgs> TileClicked;
-        public List<Player> PlayerOnTile = new List<Player>();
+        private BaseTile _tile;
+        private readonly Label[] _playerTokens = new Label[4];
+        private const int TokenSize = 25;
 
-        private Label[] playerTokens = new Label[4];
+        public BaseTile Tile
+        {
+            get => _tile;
+            set {
+                _tile = value;
+                UpdateUI();
+            }
+        }
+
+        public event EventHandler<TileClickedEventArgs> TileClicked;
 
         public BaseTileControl()
         {
@@ -20,66 +28,74 @@ namespace Monopoly.UI
             InitializePlayerTokens();
         }
 
-        public BaseTileControl(ITile tile) : this()
+        public BaseTileControl(BaseTile tile) : this()
         {
             Tile = tile;
-            UpdateUI();
         }
 
         private void InitializePlayerTokens()
         {
-            for (int i = 0; i < 4; i++)
+            Point[] positions =
             {
-                Label tokenLabel = new Label
+                new Point(0, 0),                               // Trái trên
+                new Point(this.Width - TokenSize, 0),         // Phải trên
+                new Point(0, this.Height - TokenSize - 18),   // Trái dưới
+                new Point(this.Width - TokenSize, this.Height - TokenSize - 18) // Phải dưới
+            };
+
+            for (int i = 0; i < _playerTokens.Length; i++)
+            {
+                var token = new Label
                 {
                     Font = new Font("Segoe UI Emoji", 10F, FontStyle.Regular),
-                    Size = new Size(25, 25),
+                    Size = new Size(TokenSize, TokenSize),
+                    Location = positions[i],
                     BackColor = Color.Transparent,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Visible = false // Ẩn ban đầu
+                    Visible = false
                 };
 
-                // Đặt vị trí theo từng góc
-                switch (i)
-                {
-                    case 0:
-                        tokenLabel.Location = new Point(0, 0); // Góc trái trên
-                        break;
-                    case 1:
-                        tokenLabel.Location = new Point(this.Width - tokenLabel.Width, 0); // Góc phải trên
-                        break;
-                    case 2:
-                        tokenLabel.Location = new Point(0, this.Height - tokenLabel.Height - 18); // Góc trái dưới
-                        break;
-                    case 3:
-                        tokenLabel.Location = new Point(this.Width - tokenLabel.Width, this.Height - tokenLabel.Height - 18); // Góc phải dưới
-                        break;
-                }
-
-                playerTokens[i] = tokenLabel;
-                this.Controls.Add(tokenLabel);
-                tokenLabel.BringToFront();
+                _playerTokens[i] = token;
+                Controls.Add(token);
+                token.BringToFront();
             }
         }
 
         public virtual void UpdateUI()
         {
-            Color color = Color.Transparent;
+            BackColor = Tile != null ? Tile.Color : Color.Transparent;
+        }
 
-            if (Tile != null)
+        public void OnEnter(Player player)
+        {
+            Tile?.OnEnter(player);
+            ShowToken(player);
+        }
+
+        public void ShowToken(Player player)
+        {
+            int index = player.Id;
+            if (index >= 0 && index < 4)
             {
-                color = Helper.LightenColor(Tile.TileColor);
+                var token = _playerTokens[index];
+                token.Text = player.Token;
+                token.ForeColor = player.Color;
+                token.Visible = true;
             }
+        }
 
-            this.BackColor = color;
+        public void HideToken(Player player)
+        {
+            int index = player.Id;
+            if (index >= 0 && index < 4)
+            {
+                _playerTokens[index].Visible = false;
+            }
         }
 
         private void Tile_Click(object sender, EventArgs e)
         {
-            if (Tile != null)
-            {
-                TileClicked?.Invoke(this, new TileClickedEventArgs(Tile));
-            }
+            TileClicked?.Invoke(this, new TileClickedEventArgs(Tile));
         }
 
         protected override void OnControlAdded(ControlEventArgs e)
@@ -87,47 +103,12 @@ namespace Monopoly.UI
             base.OnControlAdded(e);
             e.Control.Click += Tile_Click;
         }
-
-        public void AddPlayerToken()
-        {
-            for (int i = 0; i < playerTokens.Length; i++)
-            {
-                if (i < PlayerOnTile.Count)
-                {
-                    var player = PlayerOnTile[i];
-                    playerTokens[i].Text = player.Token;
-                    playerTokens[i].ForeColor = player.Color;
-                    playerTokens[i].Visible = true;
-                }
-                else
-                {
-                    playerTokens[i].Visible = false;
-                }
-            }
-        }
-
-        public void Add(Player player)
-        {
-            if (!PlayerOnTile.Contains(player))
-                PlayerOnTile.Add(player);
-
-            AddPlayerToken();
-        }
-
-        public void Remove(Player player)
-        {
-            PlayerOnTile.Remove(player);
-            AddPlayerToken();
-        }
     }
 
     public class TileClickedEventArgs : EventArgs
     {
-        public ITile Tile { get; }
+        public BaseTile Tile { get; }
 
-        public TileClickedEventArgs(ITile tile)
-        {
-            Tile = tile;
-        }
+        public TileClickedEventArgs(BaseTile tile) => Tile = tile;
     }
 }
